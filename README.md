@@ -1,58 +1,53 @@
-\## App
+## App
 
 
 
-\### Backend
+### Backend
 
-\- ASP.NET Core Web API (.NET 10)
+- ASP.NET Core Web API (.NET 10)
 
-\- Entity Framework Core
+- Entity Framework Core
 
-\- SQL Server
+- SQL Server
 
-\- Background Services
+- Background Services
 
-\- Swagger/OpenAPI
-
-
-
-\### Frontend
-
-\- React 18
-
-\- Vite
-
-\- Tailwind CSS
-
-\- Fetch API
+- Swagger/OpenAPI
 
 
+### Frontend
 
-\## Features
+- React 18
+
+- Vite
+
+- Tailwind CSS
+
+- Fetch API
 
 
 
-\- Lista över akutmottagningar med realtidsdata
-
-\- Sökfunktion
-
-\- Automatisk väntetidshistorik (Background Service)
-
-\- Kontakt- och bokningsformulär
-
-\- Responsiv design
-
-\- RESTful API
+## Features
 
 
 
+- Lista över akutmottagningar med realtidsdata
+
+- Sökfunktion
+
+- Automatisk väntetidshistorik (Background Service)
+
+- Kontakt- och bokningsformulär
+
+- Responsiv design
+
+- RESTful API
 
 
-\## 📸 Screenshots
+## 📸 Screenshots
 
 
-
-\[]
+[]
 
 
 
