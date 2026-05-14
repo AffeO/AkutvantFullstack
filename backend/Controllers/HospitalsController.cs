@@ -1,27 +1,27 @@
-﻿using AkutvantAPI.Data;
-using AkutvantAPI.Models;
+﻿using AkutvantAPI.Models;
+using AkutvantAPI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace AkutvantAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class HospitalsController(ApplicationDbContext context
+public class HospitalsController(IHospitalService hospitalService
     ) : ControllerBase
 {
     // GET: api/hospitals
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Hospital>>> GetHospitals()
     {
-        return await context.Hospitals.ToListAsync();
+        var hospitals = await hospitalService.GetAllHospitalsAsync();
+        return Ok(hospitals);
     }
 
     // GET: api/hospitals/5
     [HttpGet("hospitals/{id}")]
     public async Task<ActionResult<Hospital>> GetHospital(int id)
     {
-        var hospital = await context.Hospitals.FindAsync(id);
+        var hospital = await hospitalService.GetHospitalByIdAsync(id);
 
         if (hospital == null)
         {
@@ -35,42 +35,15 @@ public class HospitalsController(ApplicationDbContext context
     [HttpGet("search")]
     public async Task<ActionResult<IEnumerable<Hospital>>> SearchHospitals([FromQuery] string query)
     {
-        if (string.IsNullOrWhiteSpace(query))
-        {
-            return await GetHospitals();
-        }
-
-        var hospitals = await context.Hospitals
-            .Where(h => h.Name.Contains(query) || h.Area.Contains(query))
-            .ToListAsync();
-
-        return hospitals;
+       var hospital = await hospitalService.SearchHospitalsAsync(query);
+        return Ok(hospital);
     }
 
     // PUT: api/hospitals/5/waittime
     [HttpPut("{id}/waittime")]
     public async Task<IActionResult> UpdateWaitTime(int id, [FromBody] int newWaitTime)
     {
-        var hospital = await context.Hospitals.FindAsync(id);
-
-        if (hospital == null)
-        {
-            return NotFound();
-        }
-
-        hospital.WaitTime = newWaitTime;
-        hospital.UpdatedAt = DateTime.UtcNow;
-
-        // Uppdatera status baserat på väntetid
-        hospital.WaitStatus = newWaitTime switch
-        {
-            < 60 => "low",
-            < 120 => "medium",
-            _ => "high"
-        };
-
-        await context.SaveChangesAsync();
-
-        return NoContent();
+        var hospital = await hospitalService.UpdateWaitTimeAsync(id, newWaitTime);
+        return Ok(hospital);
     }
 }
